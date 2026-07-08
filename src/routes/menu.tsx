@@ -70,6 +70,9 @@ function MenuPage() {
           <p className="max-w-lg mx-auto text-muted-foreground leading-relaxed">
             Everything is baked in small batches each morning. When the display case is empty, we&apos;re sold out until tomorrow.
           </p>
+          <p className="mt-6 font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
+            Orders taken 2 days in advance · Custom-designed & fondant cakes currently unavailable
+          </p>
         </div>
 
         <div className="space-y-20">
