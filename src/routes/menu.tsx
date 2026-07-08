@@ -115,7 +115,7 @@ function MenuPage() {
                 {category.items.map((item) => (
                   <div key={item.name} className="flex gap-4 group">
                     {item.image && (
-                      <div className="w-20 h-20 rounded-xl overflow-hidden shrink-0 bg-stone-200">
+                      <div className="w-20 h-20 rounded-xl overflow-hidden shrink-0 bg-muted">
                         <img
                           src={item.image}
                           alt={item.imageAlt || item.name}

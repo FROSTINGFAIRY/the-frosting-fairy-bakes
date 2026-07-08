@@ -62,7 +62,7 @@ function HomePage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Card 1 */}
             <Link to="/menu" className="group animate-reveal" style={{ animationDelay: "100ms" }}>
-              <div className="overflow-hidden rounded-2xl mb-6 bg-stone-200 aspect-square">
+          <div className="overflow-hidden rounded-2xl mb-6 bg-muted aspect-square">
                 <img
                   src={cookieImg}
                   alt="Salted toffee cloud cookie"
@@ -83,7 +83,7 @@ function HomePage() {
 
             {/* Card 2 */}
             <Link to="/menu" className="group animate-reveal" style={{ animationDelay: "200ms" }}>
-              <div className="overflow-hidden rounded-2xl mb-6 bg-stone-200 aspect-square">
+          <div className="overflow-hidden rounded-2xl mb-6 bg-muted aspect-square">
                 <img
                   src={macaronImg}
                   alt="Wild rose macaron stack"
@@ -104,7 +104,7 @@ function HomePage() {
 
             {/* Card 3 */}
             <Link to="/menu" className="group animate-reveal" style={{ animationDelay: "300ms" }}>
-              <div className="overflow-hidden rounded-2xl mb-6 bg-stone-200 aspect-square">
+          <div className="overflow-hidden rounded-2xl mb-6 bg-muted aspect-square">
                 <img
                   src={lemonCakeImg}
                   alt="Zesty lemon tower cake"
