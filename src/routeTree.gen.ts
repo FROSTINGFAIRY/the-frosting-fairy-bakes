@@ -9,11 +9,17 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as VisitRouteImport } from './routes/visit'
 import { Route as StoryRouteImport } from './routes/story'
 import { Route as MenuRouteImport } from './routes/menu'
 import { Route as CustomOrdersRouteImport } from './routes/custom-orders'
 import { Route as IndexRouteImport } from './routes/index'
 
+const VisitRoute = VisitRouteImport.update({
+  id: '/visit',
+  path: '/visit',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const StoryRoute = StoryRouteImport.update({
   id: '/story',
   path: '/story',
@@ -40,12 +46,14 @@ export interface FileRoutesByFullPath {
   '/custom-orders': typeof CustomOrdersRoute
   '/menu': typeof MenuRoute
   '/story': typeof StoryRoute
+  '/visit': typeof VisitRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/custom-orders': typeof CustomOrdersRoute
   '/menu': typeof MenuRoute
   '/story': typeof StoryRoute
+  '/visit': typeof VisitRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -53,13 +61,14 @@ export interface FileRoutesById {
   '/custom-orders': typeof CustomOrdersRoute
   '/menu': typeof MenuRoute
   '/story': typeof StoryRoute
+  '/visit': typeof VisitRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/custom-orders' | '/menu' | '/story'
+  fullPaths: '/' | '/custom-orders' | '/menu' | '/story' | '/visit'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/custom-orders' | '/menu' | '/story'
-  id: '__root__' | '/' | '/custom-orders' | '/menu' | '/story'
+  to: '/' | '/custom-orders' | '/menu' | '/story' | '/visit'
+  id: '__root__' | '/' | '/custom-orders' | '/menu' | '/story' | '/visit'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -67,10 +76,18 @@ export interface RootRouteChildren {
   CustomOrdersRoute: typeof CustomOrdersRoute
   MenuRoute: typeof MenuRoute
   StoryRoute: typeof StoryRoute
+  VisitRoute: typeof VisitRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/visit': {
+      id: '/visit'
+      path: '/visit'
+      fullPath: '/visit'
+      preLoaderRoute: typeof VisitRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/story': {
       id: '/story'
       path: '/story'
@@ -107,6 +124,7 @@ const rootRouteChildren: RootRouteChildren = {
   CustomOrdersRoute: CustomOrdersRoute,
   MenuRoute: MenuRoute,
   StoryRoute: StoryRoute,
+  VisitRoute: VisitRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
