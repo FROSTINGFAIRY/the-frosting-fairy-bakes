@@ -17,39 +17,41 @@ export const Route = createFileRoute("/menu")({
 
 const menuItems = [
   {
-    category: "Pastries",
+    category: "Cakes & Bakes",
     items: [
-      { name: "Salted Toffee Cloud", description: "Brown butter & hand-pulled toffee", price: "$4.50", image: cookieImg, imageAlt: "Salted toffee cookie" },
-      { name: "Wild Rose Macaron", description: "Infused with local garden petals", price: "$3.75", image: macaronImg, imageAlt: "Pink rose macarons" },
-      { name: "Honey-Glazed Croissant", description: "48-hour laminated dough with wildflower honey", price: "$5.50" },
-      { name: "Burnt Lemon Meringue", description: "Tart citrus curd with torched meringue", price: "$6.25" },
+      { name: "Bento Cakes", description: "Petite signature cream cake for one", price: "₹300", image: lemonCakeImg, imageAlt: "Bento cake" },
+      { name: "Half Kg Cake", description: "Signature cream cake, half kilogram", price: "₹550" },
+      { name: "Cupcakes", description: "Box of 6 — choose your flavours", price: "₹350", image: macaronImg, imageAlt: "Cupcakes" },
     ],
   },
   {
-    category: "Cakes",
+    category: "Brownies & Cookies",
     items: [
-      { name: "Zesty Lemon Tower", description: "Triple-layered with citrus curd", price: "$7.00", image: lemonCakeImg, imageAlt: "Lemon layer cake" },
-      { name: "Vanilla Bean Dream", description: "Madagascar vanilla bean frosting", price: "$6.50" },
-      { name: "Chocolate Midnight", description: "Dark ganache with sea salt", price: "$7.50" },
-      { name: "Carrot & Walnut", description: "Spiced carrot with cream cheese frosting", price: "$6.00" },
+      { name: "Classic Brownies", description: "Box of 6 — fudgy chocolate squares", price: "₹300" },
+      { name: "Brownies with Toppings", description: "Box of 6 — add your favourite topping", price: "₹350" },
+      { name: "Cookies", description: "Box of 6 — soft-baked & buttery", price: "₹300", image: cookieImg, imageAlt: "Cookies" },
     ],
   },
   {
-    category: "Cookies & Bars",
+    category: "Cupcake Flavours",
     items: [
-      { name: "Oatmeal Brown Butter", description: "Toasted oats with browned butter", price: "$3.50" },
-      { name: "Lavender Shortbread", description: "Fragrant lavender from the garden", price: "$3.25" },
-      { name: "Pecan Blondie", description: "Chewy caramel pecan square", price: "$4.00" },
-      { name: "Ginger Molasses", description: "Soft & spiced with crystallized ginger", price: "$3.50" },
+      { name: "Vanilla", description: "Classic vanilla bean cream", price: "—" },
+      { name: "Choco Nutella", description: "Rich cocoa with Nutella swirl", price: "—" },
+      { name: "Strawberry", description: "Fresh strawberry cream", price: "—" },
+      { name: "Lemon", description: "Bright citrus with lemon curd", price: "—" },
+      { name: "Red Velvet", description: "Cocoa sponge with cream cheese", price: "—" },
+      { name: "Oreo", description: "Cookies & cream classic", price: "—" },
     ],
   },
   {
-    category: "Seasonal",
+    category: "Choose Your Toppings",
     items: [
-      { name: "Peach Cobbler Muffin", description: "Fresh peaches with oat crumble", price: "$4.25" },
-      { name: "Blueberry Lavender Scone", description: "Local berries with dried lavender", price: "$4.50" },
-      { name: "Strawberry Rhubarb Tart", description: "Flaky pastry with seasonal fruit", price: "$6.75" },
-      { name: "Honey-Lavender Crumb", description: "Spring specialty with local honey", price: "$5.00" },
+      { name: "Nutella", description: "Hazelnut cocoa spread", price: "—" },
+      { name: "Pistachio", description: "Roasted & chopped", price: "—" },
+      { name: "Triple Chocolate", description: "Dark, milk & white", price: "—" },
+      { name: "KitKat", description: "Crunchy wafer pieces", price: "—" },
+      { name: "Oreo", description: "Crushed cookie crumble", price: "—" },
+      { name: "Lotus Biscoff", description: "Caramelised biscuit", price: "—" },
     ],
   },
 ];
