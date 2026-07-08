@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as StoryRouteImport } from './routes/story'
 import { Route as MenuRouteImport } from './routes/menu'
+import { Route as CustomOrdersRouteImport } from './routes/custom-orders'
 import { Route as IndexRouteImport } from './routes/index'
 
 const StoryRoute = StoryRouteImport.update({
@@ -23,6 +24,11 @@ const MenuRoute = MenuRouteImport.update({
   path: '/menu',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CustomOrdersRoute = CustomOrdersRouteImport.update({
+  id: '/custom-orders',
+  path: '/custom-orders',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -31,30 +37,34 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/custom-orders': typeof CustomOrdersRoute
   '/menu': typeof MenuRoute
   '/story': typeof StoryRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/custom-orders': typeof CustomOrdersRoute
   '/menu': typeof MenuRoute
   '/story': typeof StoryRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/custom-orders': typeof CustomOrdersRoute
   '/menu': typeof MenuRoute
   '/story': typeof StoryRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/menu' | '/story'
+  fullPaths: '/' | '/custom-orders' | '/menu' | '/story'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/menu' | '/story'
-  id: '__root__' | '/' | '/menu' | '/story'
+  to: '/' | '/custom-orders' | '/menu' | '/story'
+  id: '__root__' | '/' | '/custom-orders' | '/menu' | '/story'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CustomOrdersRoute: typeof CustomOrdersRoute
   MenuRoute: typeof MenuRoute
   StoryRoute: typeof StoryRoute
 }
@@ -75,6 +85,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MenuRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/custom-orders': {
+      id: '/custom-orders'
+      path: '/custom-orders'
+      fullPath: '/custom-orders'
+      preLoaderRoute: typeof CustomOrdersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -87,6 +104,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CustomOrdersRoute: CustomOrdersRoute,
   MenuRoute: MenuRoute,
   StoryRoute: StoryRoute,
 }
