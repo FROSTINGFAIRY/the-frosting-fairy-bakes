@@ -139,7 +139,7 @@ function MenuPage() {
                   src={b.src}
                   alt={b.alt}
                   loading="lazy"
-                  className="w-full h-auto object-cover"
+                  className="w-full aspect-[4/5] object-cover object-top"
                 />
               </a>
             ))}
