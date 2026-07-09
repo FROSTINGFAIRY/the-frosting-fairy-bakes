@@ -124,6 +124,28 @@ function MenuPage() {
           </p>
         </div>
 
+        <div className="mb-20 animate-reveal">
+          <h2 className="font-display text-3xl italic mb-8 text-center">Our Menu Boards</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {menuBoards.map((b) => (
+              <a
+                key={b.src}
+                href={b.src}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block rounded-2xl overflow-hidden bg-muted ring-1 ring-accent/15 hover:ring-accent/40 transition"
+              >
+                <img
+                  src={b.src}
+                  alt={b.alt}
+                  loading="lazy"
+                  className="w-full h-auto object-cover"
+                />
+              </a>
+            ))}
+          </div>
+        </div>
+
         <div className="space-y-20">
           {menuItems.map((category) => (
             <div key={category.category} className="animate-reveal">
