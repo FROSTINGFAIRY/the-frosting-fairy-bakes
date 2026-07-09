@@ -13,40 +13,59 @@ function HomePage() {
   return (
     <main>
       {/* Hero Section */}
-      <section className="relative px-6 py-12 md:py-24 max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center">
-        <div className="animate-reveal">
-          <div className="font-mono text-[10px] uppercase tracking-[0.3em] text-accent mb-4">
-            Handmade in small batches
+      <section className="relative overflow-hidden">
+        {/* Soft pink background wash */}
+        <div className="absolute inset-0 bg-gradient-to-br from-accent/[0.04] via-background to-accent/[0.07]" />
+        <div className="absolute -top-40 -right-20 w-[500px] h-[500px] rounded-full bg-accent/10 blur-[100px]" />
+        <div className="absolute -bottom-32 -left-32 w-[400px] h-[400px] rounded-full bg-accent/10 blur-[80px]" />
+
+        <div className="relative px-6 py-16 md:py-32 max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+          <div className="animate-reveal">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-accent/10 border border-accent/20 mb-6">
+              <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
+              <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-accent">
+                Handmade in small batches
+              </span>
+            </div>
+            <h1 className="font-display text-5xl md:text-7xl lg:text-8xl italic leading-[0.9] text-balance mb-8 animate-swipe">
+              Baking magic into every <span className="text-accent">single bite.</span>
+            </h1>
+            <p className="max-w-md text-lg text-muted-foreground leading-relaxed mb-10">
+              Warm ovens, vanilla-scented air, and the gentle dusting of sugar. We believe the best treats are made with love, butter, and a sprinkle of fairy dust.
+            </p>
+            <div className="flex flex-wrap items-center gap-4">
+              <Link
+                to="/menu"
+                className="inline-flex items-center gap-2 px-8 py-4 bg-accent text-primary-foreground rounded-full font-display italic text-lg shadow-lg shadow-accent/20 hover:shadow-accent/30 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300"
+              >
+                Explore the menu
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="ml-1">
+                  <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </Link>
+              <Link
+                to="/visit"
+                className="group inline-flex items-center gap-3 px-6 py-4 font-display italic text-lg text-foreground/80 hover:text-foreground transition-colors"
+              >
+                Plan your visit
+                <span className="h-px w-8 bg-foreground/40 group-hover:w-12 group-hover:bg-foreground transition-all duration-300" />
+              </Link>
+            </div>
           </div>
-          <h1 className="font-display text-5xl md:text-7xl lg:text-8xl italic leading-[0.9] text-balance mb-8 animate-swipe">
-            Baking magic into every <span className="text-accent">single bite.</span>
-          </h1>
-          <p className="max-w-md text-lg text-muted-foreground leading-relaxed mb-10">
-            Warm ovens, vanilla-scented air, and the gentle dusting of sugar. We believe the best treats are made with love, butter, and a sprinkle of fairy dust.
-          </p>
-          <div className="flex items-center gap-6">
-            <Link
-              to="/menu"
-              className="group flex items-center gap-3 font-display italic text-xl"
-            >
-              Explore the menu
-              <span className="h-px w-12 bg-foreground group-hover:w-16 transition-all duration-500"></span>
-            </Link>
-          </div>
-        </div>
-        <div className="relative animate-reveal" style={{ animationDelay: "200ms" }}>
-          <div className="aspect-[4/5] w-full bg-accent/5 rounded-t-[200px] rounded-b-lg overflow-hidden">
-            <img
-              src={heroCupcakes}
-              alt="Artisanal cupcakes with pastel frosting and edible flowers"
-              className="w-full h-full object-cover"
-              width={1200}
-              height={1500}
-            />
-          </div>
-          <div className="absolute -bottom-6 -left-6 bg-background p-6 border border-border rounded-lg shadow-sm max-w-[200px]">
-            <p className="font-mono text-[9px] uppercase tracking-tighter mb-2">Batch No. 402</p>
-            <p className="text-sm italic font-display">&ldquo;The Honey-Lavender Sprinkled Crumb is back for spring.&rdquo;</p>
+          <div className="relative animate-reveal" style={{ animationDelay: "200ms" }}>
+            <div className="aspect-[4/5] w-full bg-accent/5 rounded-t-[200px] rounded-b-lg overflow-hidden ring-1 ring-accent/10 ring-offset-4 ring-offset-background">
+              <img
+                src={heroCupcakes}
+                alt="Artisanal cupcakes with pastel frosting and edible flowers"
+                className="w-full h-full object-cover"
+                width={1200}
+                height={1500}
+              />
+            </div>
+            <div className="absolute -bottom-6 -left-6 bg-background/80 backdrop-blur-sm p-6 border border-accent/15 rounded-2xl shadow-sm max-w-[220px]">
+              <p className="font-mono text-[9px] uppercase tracking-tighter mb-2 text-accent">Batch No. 402</p>
+              <p className="text-sm italic font-display text-foreground">&ldquo;The Honey-Lavender Sprinkled Crumb is back for spring.&rdquo;</p>
+            </div>
           </div>
         </div>
       </section>
