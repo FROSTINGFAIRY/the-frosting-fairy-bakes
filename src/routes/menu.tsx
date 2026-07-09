@@ -2,6 +2,25 @@ import { createFileRoute } from "@tanstack/react-router";
 import cookieImg from "../assets/cookie.jpg";
 import macaronImg from "../assets/macaron.jpg";
 import lemonCakeImg from "../assets/lemon-cake.jpg";
+import board1 from "../assets/menu-boards/board-15.22.12_1-2.jpeg.asset.json";
+import board2 from "../assets/menu-boards/board-15.50.13-2.jpeg.asset.json";
+import board3 from "../assets/menu-boards/board-15.50.12_3-2.jpeg.asset.json";
+import board4 from "../assets/menu-boards/board-15.50.12_4-2.jpeg.asset.json";
+import board5 from "../assets/menu-boards/board-15.50.12_1-2.jpeg.asset.json";
+import board6 from "../assets/menu-boards/board-15.50.12-2.jpeg.asset.json";
+import board7 from "../assets/menu-boards/board-15.50.12_2-2.jpeg.asset.json";
+import board8 from "../assets/menu-boards/board-15.50.11-2.jpeg.asset.json";
+
+const menuBoards = [
+  { src: board1.url, alt: "Full menu with pricing" },
+  { src: board2.url, alt: "Cupcake menu" },
+  { src: board3.url, alt: "Cupcake flavours" },
+  { src: board4.url, alt: "Cake flavours menu" },
+  { src: board5.url, alt: "Brownie menu" },
+  { src: board6.url, alt: "Cookie menu" },
+  { src: board7.url, alt: "Cake price list" },
+  { src: board8.url, alt: "New additions — donuts, bombolonies & cinnamon rolls" },
+];
 
 export const Route = createFileRoute("/menu")({
   head: () => ({
@@ -103,6 +122,28 @@ function MenuPage() {
           <p className="mt-6 font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
             Orders taken 2 days in advance · Custom-designed & fondant cakes currently unavailable
           </p>
+        </div>
+
+        <div className="mb-20 animate-reveal">
+          <h2 className="font-display text-3xl italic mb-8 text-center">Our Menu Boards</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {menuBoards.map((b) => (
+              <a
+                key={b.src}
+                href={b.src}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block rounded-2xl overflow-hidden bg-muted ring-1 ring-accent/15 hover:ring-accent/40 transition"
+              >
+                <img
+                  src={b.src}
+                  alt={b.alt}
+                  loading="lazy"
+                  className="w-full h-auto object-cover"
+                />
+              </a>
+            ))}
+          </div>
         </div>
 
         <div className="space-y-20">
