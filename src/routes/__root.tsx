@@ -11,6 +11,7 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import logoAsset from "../assets/frosting-fairy-logo.jpeg.asset.json";
 
 function NotFoundComponent() {
   return (
@@ -123,8 +124,9 @@ function RootShell({ children }: { children: ReactNode }) {
 function Header() {
   return (
     <nav className="sticky top-0 z-50 flex items-center justify-between px-6 py-4 bg-background/80 backdrop-blur-md border-b border-border">
-      <Link to="/" className="font-display italic text-2xl tracking-tight text-accent hover:opacity-80 transition-opacity">
-        the frosting fairy
+      <Link to="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
+        <img src={logoAsset.url} alt="The Frosting Fairy" className="h-12 w-12 rounded-full object-cover" />
+        <span className="font-display italic text-2xl tracking-tight text-accent hidden sm:inline">the frosting fairy</span>
       </Link>
       <div className="hidden md:flex gap-8 text-xs uppercase tracking-widest font-medium text-muted-foreground">
         <Link to="/menu" className="hover:text-foreground transition-colors">Menu</Link>
