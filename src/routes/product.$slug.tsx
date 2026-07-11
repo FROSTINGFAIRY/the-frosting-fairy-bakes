@@ -149,7 +149,7 @@ function ProductPage() {
             <section>
               <h2 className="font-mono text-[10px] uppercase tracking-[0.3em] text-accent mb-3">Ingredients</h2>
               <div className="flex flex-wrap gap-2">
-                {product.ingredients.map((i) => (
+                {product.ingredients.map((i: string) => (
                   <span
                     key={i}
                     className="rounded-full bg-muted px-3 py-1 text-xs text-muted-foreground"
@@ -163,7 +163,7 @@ function ProductPage() {
             <section>
               <h2 className="font-mono text-[10px] uppercase tracking-[0.3em] text-accent mb-3">The Details</h2>
               <ul className="space-y-2">
-                {product.details.map((d) => (
+                {product.details.map((d: string) => (
                   <li key={d} className="flex gap-3 text-sm text-muted-foreground">
                     <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-accent" />
                     {d}
