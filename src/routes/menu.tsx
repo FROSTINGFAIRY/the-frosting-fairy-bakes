@@ -202,7 +202,15 @@ function MenuPage() {
                 {category.category}
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
-                {category.items.map((item) => {
+                {category.items.map((rawItem) => {
+                  const item = rawItem as {
+                    name: string;
+                    description: string;
+                    price: string;
+                    image?: string;
+                    imageAlt?: string;
+                    slug?: string;
+                  };
                   const inner = (
                     <div className="flex gap-4 group">
                     {item.image && (
@@ -223,7 +231,7 @@ function MenuPage() {
                         <span className="font-mono text-sm text-muted-foreground">{item.price}</span>
                       </div>
                       <p className="text-sm text-muted-foreground">{item.description}</p>
-                      {"slug" in item && item.slug && (
+                      {item.slug && (
                         <span className="mt-1 inline-block font-mono text-[9px] uppercase tracking-[0.25em] text-accent">
                           View Details →
                         </span>
@@ -231,7 +239,7 @@ function MenuPage() {
                     </div>
                     </div>
                   );
-                  if ("slug" in item && item.slug) {
+                  if (item.slug) {
                     return (
                       <Link
                         key={item.name}
