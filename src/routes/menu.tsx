@@ -3,6 +3,7 @@ import { Link } from "@tanstack/react-router";
 import cookieImg from "../assets/cookie.jpg";
 import macaronImg from "../assets/macaron.jpg";
 import lemonCakeImg from "../assets/lemon-cake.jpg";
+import { products as productsData } from "../lib/products";
 import board1 from "../assets/menu-boards-v2/07.13.22.jpeg.asset.json";
 import board2 from "../assets/menu-boards-v2/07.13.25.jpeg.asset.json";
 import board3 from "../assets/menu-boards-v2/07.13.24_1.jpeg.asset.json";
