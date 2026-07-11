@@ -2,14 +2,14 @@ import { createFileRoute } from "@tanstack/react-router";
 import cookieImg from "../assets/cookie.jpg";
 import macaronImg from "../assets/macaron.jpg";
 import lemonCakeImg from "../assets/lemon-cake.jpg";
-import board1 from "../assets/menu-boards/board-15.22.12_1-2.jpeg.asset.json";
-import board2 from "../assets/menu-boards/board-15.50.13-2.jpeg.asset.json";
-import board3 from "../assets/menu-boards/board-15.50.12_3-2.jpeg.asset.json";
-import board4 from "../assets/menu-boards/board-15.50.12_4-2.jpeg.asset.json";
-import board5 from "../assets/menu-boards/board-15.50.12_1-2.jpeg.asset.json";
-import board6 from "../assets/menu-boards/board-15.50.12-2.jpeg.asset.json";
-import board7 from "../assets/menu-boards/board-15.50.12_2-2.jpeg.asset.json";
-import board8 from "../assets/menu-boards/board-15.50.11-2.jpeg.asset.json";
+import board1 from "../assets/menu-boards-v2/07.13.22.jpeg.asset.json";
+import board2 from "../assets/menu-boards-v2/07.13.25.jpeg.asset.json";
+import board3 from "../assets/menu-boards-v2/07.13.24_1.jpeg.asset.json";
+import board4 from "../assets/menu-boards-v2/07.13.23_1.jpeg.asset.json";
+import board5 from "../assets/menu-boards-v2/07.13.24_2.jpeg.asset.json";
+import board6 from "../assets/menu-boards-v2/07.13.24.jpeg.asset.json";
+import board7 from "../assets/menu-boards-v2/07.13.25_1.jpeg.asset.json";
+import board8 from "../assets/menu-boards-v2/07.13.23.jpeg.asset.json";
 
 const menuBoards = [
   { src: board1.url, alt: "Full menu with pricing" },
