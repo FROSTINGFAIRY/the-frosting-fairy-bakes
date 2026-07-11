@@ -1,7 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { Link } from "@tanstack/react-router";
 import cookieImg from "../assets/cookie.jpg";
 import macaronImg from "../assets/macaron.jpg";
 import lemonCakeImg from "../assets/lemon-cake.jpg";
+import { products as productsData } from "../lib/products";
 import board1 from "../assets/menu-boards-v2/07.13.22.jpeg.asset.json";
 import board2 from "../assets/menu-boards-v2/07.13.25.jpeg.asset.json";
 import board3 from "../assets/menu-boards-v2/07.13.24_1.jpeg.asset.json";
@@ -38,9 +40,9 @@ const menuItems = [
   {
     category: "Cakes & Bakes",
     items: [
-      { name: "Bento Cakes", description: "Petite signature cream cake for one", price: "₹300", image: lemonCakeImg, imageAlt: "Bento cake" },
-      { name: "Half Kg Cake", description: "Signature cream cake, half kilogram", price: "₹550" },
-      { name: "Cupcakes", description: "Box of 6 — choose your flavours", price: "₹350", image: macaronImg, imageAlt: "Cupcakes" },
+      { name: "Bento Cakes", description: "Petite signature cream cake for one", price: "₹300", image: lemonCakeImg, imageAlt: "Bento cake", slug: "bento-cake" },
+      { name: "Half Kg Cake", description: "Signature cream cake, half kilogram", price: "₹550", slug: "half-kg-cake" },
+      { name: "Cupcakes", description: "Box of 6 — choose your flavours", price: "₹350", image: macaronImg, imageAlt: "Cupcakes", slug: "cupcakes-box" },
     ],
   },
   {
@@ -82,7 +84,7 @@ const menuItems = [
   {
     category: "Cookies (Box of 6)",
     items: [
-      { name: "Classic Choco Chip", description: "Soft-baked with chocolate chips", price: "₹250", image: cookieImg, imageAlt: "Choco chip cookies" },
+      { name: "Classic Choco Chip", description: "Soft-baked with chocolate chips", price: "₹250", image: cookieImg, imageAlt: "Choco chip cookies", slug: "classic-choco-chip" },
       { name: "Double Chocolate", description: "Cocoa dough with chocolate chunks", price: "₹300" },
       { name: "Dark Chocolate Chunks", description: "Rich dark chocolate throughout", price: "₹330" },
       { name: "M&M Cookies", description: "Loaded with colourful M&Ms", price: "₹330" },
@@ -95,10 +97,10 @@ const menuItems = [
       { name: "Classic Vanilla Custard Bombolonies", description: "Filled with vanilla custard", price: "₹420" },
       { name: "Choco Hazelnut Bombolonies", description: "Filled with choco hazelnut cream", price: "₹460" },
       { name: "Strawberry Burst Bombolonies", description: "Bursting with strawberry filling", price: "₹480" },
-      { name: "Classic Glazed Donuts", description: "Soft glazed rings", price: "₹420" },
+      { name: "Classic Glazed Donuts", description: "Soft glazed rings", price: "₹420", slug: "glazed-donuts" },
       { name: "Caramel Glazed Donuts", description: "Rich caramel glaze", price: "₹460" },
       { name: "Cookies & Cream Donuts", description: "Topped with cookies & cream", price: "₹500" },
-      { name: "Classic Sugar Glaze Cinnamon Rolls", description: "Warm cinnamon, sugar glaze", price: "₹400" },
+      { name: "Classic Sugar Glaze Cinnamon Rolls", description: "Warm cinnamon, sugar glaze", price: "₹400", slug: "cinnamon-rolls" },
       { name: "Condensed Milk Glaze Cinnamon Rolls", description: "Sweet condensed milk drizzle", price: "₹440" },
       { name: "Cream Cheese Glaze Cinnamon Rolls", description: "Tangy cream cheese frosting", price: "₹480" },
     ],
@@ -146,6 +148,53 @@ function MenuPage() {
           </div>
         </div>
 
+        <div className="mb-16 animate-reveal">
+          <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-accent mb-4 text-center">
+            Featured · Shop Online
+          </p>
+          <h2 className="font-display text-3xl italic mb-10 text-center">Order in a click</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[
+              "bento-cake",
+              "cupcakes-box",
+              "classic-choco-chip",
+              "classic-brownie",
+              "glazed-donuts",
+              "cinnamon-rolls",
+            ].map((slug) => {
+              const p = productsData.find((x) => x.slug === slug);
+              if (!p) return null;
+              return (
+                <Link
+                  key={p.slug}
+                  to="/product/$slug"
+                  params={{ slug: p.slug }}
+                  className="group block rounded-2xl overflow-hidden bg-card ring-1 ring-border hover:ring-accent/40 transition"
+                >
+                  <div className="aspect-square overflow-hidden bg-muted">
+                    <img
+                      src={p.image}
+                      alt={p.name}
+                      loading="lazy"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                  </div>
+                  <div className="p-5">
+                    <div className="flex justify-between items-baseline mb-1">
+                      <h3 className="font-display text-lg">{p.name}</h3>
+                      <span className="font-mono text-sm text-muted-foreground">{p.price}</span>
+                    </div>
+                    <p className="text-sm text-muted-foreground mb-4">{p.description}</p>
+                    <span className="inline-block font-mono text-[10px] uppercase tracking-[0.25em] text-accent group-hover:text-foreground transition-colors">
+                      View Details →
+                    </span>
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+
         <div className="space-y-20">
           {menuItems.map((category) => (
             <div key={category.category} className="animate-reveal">
@@ -153,8 +202,17 @@ function MenuPage() {
                 {category.category}
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
-                {category.items.map((item) => (
-                  <div key={item.name} className="flex gap-4 group">
+                {category.items.map((rawItem) => {
+                  const item = rawItem as {
+                    name: string;
+                    description: string;
+                    price: string;
+                    image?: string;
+                    imageAlt?: string;
+                    slug?: string;
+                  };
+                  const inner = (
+                    <div className="flex gap-4 group">
                     {item.image && (
                       <div className="w-20 h-20 rounded-xl overflow-hidden shrink-0 bg-muted">
                         <img
@@ -169,13 +227,32 @@ function MenuPage() {
                     )}
                     <div className="flex-1">
                       <div className="flex justify-between items-baseline mb-1">
-                        <h3 className="font-display text-lg">{item.name}</h3>
+                        <h3 className="font-display text-lg group-hover:text-accent transition-colors">{item.name}</h3>
                         <span className="font-mono text-sm text-muted-foreground">{item.price}</span>
                       </div>
                       <p className="text-sm text-muted-foreground">{item.description}</p>
+                      {item.slug && (
+                        <span className="mt-1 inline-block font-mono text-[9px] uppercase tracking-[0.25em] text-accent">
+                          View Details →
+                        </span>
+                      )}
                     </div>
-                  </div>
-                ))}
+                    </div>
+                  );
+                  if (item.slug) {
+                    return (
+                      <Link
+                        key={item.name}
+                        to="/product/$slug"
+                        params={{ slug: item.slug }}
+                        className="block"
+                      >
+                        {inner}
+                      </Link>
+                    );
+                  }
+                  return <div key={item.name}>{inner}</div>;
+                })}
               </div>
             </div>
           ))}

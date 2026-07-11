@@ -12,6 +12,8 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import logoAsset from "../assets/frosting-fairy-logo.jpeg.asset.json";
+import { CartProvider } from "../lib/cart";
+import { CartButton, CartDrawer } from "../components/CartDrawer";
 
 function NotFoundComponent() {
   return (
@@ -134,12 +136,15 @@ function Header() {
         <Link to="/custom-orders" className="hover:text-foreground transition-colors">Custom Orders</Link>
         <Link to="/visit" className="hover:text-foreground transition-colors">Visit</Link>
       </div>
-      <Link
-        to="/menu"
-        className="px-5 py-2 rounded-full border border-foreground text-[10px] uppercase tracking-widest font-bold hover:bg-foreground hover:text-background transition-all duration-300"
-      >
-        Order Now
-      </Link>
+      <div className="flex items-center gap-2">
+        <Link
+          to="/menu"
+          className="hidden sm:inline-block px-5 py-2 rounded-full border border-foreground text-[10px] uppercase tracking-widest font-bold hover:bg-foreground hover:text-background transition-all duration-300"
+        >
+          Order Now
+        </Link>
+        <CartButton />
+      </div>
     </nav>
   );
 }
@@ -163,9 +168,12 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Header />
-      <Outlet />
-      <Footer />
+      <CartProvider>
+        <Header />
+        <Outlet />
+        <Footer />
+        <CartDrawer />
+      </CartProvider>
     </QueryClientProvider>
   );
 }
