@@ -1,6 +1,9 @@
 import cookieImg from "../assets/cookie.jpg";
 import macaronImg from "../assets/macaron.jpg";
 import lemonCakeImg from "../assets/lemon-cake.jpg";
+import brownieImg from "../assets/brownie.jpg";
+import cinnamonRollImg from "../assets/cinnamon-roll.jpg";
+import { getMenuItem } from "./menu-items";
 
 export type Product = {
   slug: string;
@@ -102,7 +105,7 @@ export const products: Product[] = [
       "Dense, fudgy, and deeply chocolatey — our classic brownies have a crackle-top crust and a molten centre. Made with real dark chocolate and European butter, they're everything a brownie should be.",
     price: "₹300",
     priceValue: 300,
-    image: cookieImg,
+    image: brownieImg,
     servingSize: "6 brownies",
     ingredients: ["70% dark chocolate", "European butter", "Cane sugar", "Free-range eggs", "Unbleached flour", "Cocoa powder"],
     details: [
@@ -140,7 +143,7 @@ export const products: Product[] = [
       "Soft, buttery cinnamon rolls swirled with brown sugar and warm spice, finished with a classic sugar glaze that soaks into every layer. Comfort in a box.",
     price: "₹400",
     priceValue: 400,
-    image: cookieImg,
+    image: cinnamonRollImg,
     servingSize: "6 rolls",
     ingredients: ["Enriched brioche dough", "Ceylon cinnamon", "Brown sugar", "European butter", "Vanilla sugar glaze"],
     details: [
@@ -153,5 +156,27 @@ export const products: Product[] = [
 ];
 
 export function getProduct(slug: string): Product | undefined {
-  return products.find((p) => p.slug === slug);
+  const direct = products.find((p) => p.slug === slug);
+  if (direct) return direct;
+  const item = getMenuItem(slug);
+  if (!item) return undefined;
+  const priceValue = Number(item.price.replace(/[^0-9]/g, "").slice(0, item.price.includes("/") ? Math.floor(item.price.replace(/[^0-9]/g, "").length / 2) : undefined)) || 0;
+  return {
+    slug: item.slug,
+    name: item.name,
+    category: item.category,
+    description: item.description,
+    longDescription: `${item.name} — ${item.description}. Baked fresh in small batches the morning of pickup.`,
+    price: item.price,
+    priceValue,
+    image: item.image ?? cookieImg,
+    servingSize: item.category.includes("Box of 6") ? "6 pieces" : undefined,
+    ingredients: ["European butter", "Free-range eggs", "Cane sugar", "Real vanilla", "Unbleached flour"],
+    details: [
+      "Baked fresh the morning of pickup",
+      "Packaged in a signature bakery box",
+      "Please order at least 2 days in advance",
+      "Contains dairy, eggs, gluten",
+    ],
+  };
 }
