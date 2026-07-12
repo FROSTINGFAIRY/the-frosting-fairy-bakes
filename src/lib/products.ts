@@ -160,7 +160,8 @@ export function getProduct(slug: string): Product | undefined {
   if (direct) return direct;
   const item = getMenuItem(slug);
   if (!item) return undefined;
-  const priceValue = Number(item.price.replace(/[^0-9]/g, "").slice(0, item.price.includes("/") ? Math.floor(item.price.replace(/[^0-9]/g, "").length / 2) : undefined)) || 0;
+  const firstNumber = item.price.match(/[0-9,]+/)?.[0].replace(/,/g, "") ?? "0";
+  const priceValue = Number(firstNumber) || 0;
   return {
     slug: item.slug,
     name: item.name,
