@@ -1,7 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Link } from "@tanstack/react-router";
-import { products as productsData } from "../lib/products";
-import { menuCategories } from "../lib/menu-items";
+import { useQuery, queryOptions } from "@tanstack/react-query";
+import { Loader2 } from "lucide-react";
+import { fetchMenuItems, groupByCategory } from "../lib/menu-api";
+import placeholderImg from "../assets/cookie.jpg";
 import board1 from "../assets/menu-boards-v2/07.13.22.jpeg.asset.json";
 import board2 from "../assets/menu-boards-v2/07.13.25.jpeg.asset.json";
 import board3 from "../assets/menu-boards-v2/07.13.24_1.jpeg.asset.json";
@@ -31,12 +33,22 @@ export const Route = createFileRoute("/menu")({
       { property: "og:description", content: "Browse our daily selection of handmade pastries, cakes, cookies, and seasonal treats." },
     ],
   }),
+  loader: ({ context }) => context.queryClient.ensureQueryData(menuQueryOptions),
   component: MenuPage,
 });
 
-const menuItems = menuCategories;
+const menuQueryOptions = queryOptions({
+  queryKey: ["menu-items"],
+  queryFn: fetchMenuItems,
+});
 
 function MenuPage() {
+  const { data: items = [], isLoading } = useQuery(menuQueryOptions);
+  const menuItems = groupByCategory(items);
+  const featuredSlugs = ["bento-cake", "cupcakes-box", "classic-choco-chip", "classic-brownie", "glazed-donuts", "cinnamon-rolls"];
+  const featured = featuredSlugs
+    .map((s) => items.find((i) => i.slug === s))
+    .filter((x): x is NonNullable<typeof x> => !!x);
   return (
     <main>
       <section className="px-6 py-24 max-w-7xl mx-auto">
@@ -83,17 +95,7 @@ function MenuPage() {
           </p>
           <h2 className="font-display text-3xl italic mb-10 text-center">Order in a click</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[
-              "bento-cake",
-              "cupcakes-box",
-              "classic-choco-chip",
-              "classic-brownie",
-              "glazed-donuts",
-              "cinnamon-rolls",
-            ].map((slug) => {
-              const p = productsData.find((x) => x.slug === slug);
-              if (!p) return null;
-              return (
+            {featured.map((p) => (
                 <Link
                   key={p.slug}
                   to="/product/$slug"
@@ -102,7 +104,7 @@ function MenuPage() {
                 >
                   <div className="aspect-square overflow-hidden bg-muted">
                     <img
-                      src={p.image}
+                      src={p.image_url || placeholderImg}
                       alt={p.name}
                       loading="lazy"
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
@@ -119,10 +121,13 @@ function MenuPage() {
                     </span>
                   </div>
                 </Link>
-              );
-            })}
+            ))}
           </div>
         </div>
+
+        {isLoading && (
+          <div className="flex justify-center py-12"><Loader2 className="h-6 w-6 animate-spin text-muted-foreground" /></div>
+        )}
 
         <div className="space-y-20">
           {menuItems.map((category) => (
@@ -134,11 +139,11 @@ function MenuPage() {
                 {category.items.map((item) => {
                   const inner = (
                     <div className="flex gap-4 group">
-                    {item.image && (
+                    {item.image_url && (
                       <div className="w-20 h-20 rounded-xl overflow-hidden shrink-0 bg-muted">
                         <img
-                          src={item.image}
-                          alt={item.imageAlt || item.name}
+                          src={item.image_url}
+                          alt={item.name}
                           className="w-full h-full object-cover"
                           loading="lazy"
                           width={80}
