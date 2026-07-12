@@ -5,18 +5,16 @@ import { z } from "zod";
 const BUCKET = "product-images";
 const SIGNED_URL_TTL = 60 * 60 * 24 * 365 * 5; // 5 years
 
-async function assertAdmin(context: { supabase: Awaited<ReturnType<typeof getCtx>>["supabase"]; userId: string }) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type AdminContext = { supabase: any; userId: string };
+
+async function assertAdmin(context: AdminContext) {
   const { data, error } = await context.supabase.rpc("has_role", {
     _user_id: context.userId,
     _role: "admin",
   });
   if (error) throw new Error(error.message);
   if (!data) throw new Error("Forbidden: admin role required");
-}
-
-// Helper type only, never invoked
-async function getCtx() {
-  return {} as { supabase: any; userId: string };
 }
 
 const UpdateInput = z.object({
