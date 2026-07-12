@@ -1,12 +1,25 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useState } from "react";
-import { Minus, Plus, ShoppingBag, ArrowLeft, Check } from "lucide-react";
-import { getProduct, products } from "../lib/products";
+import { useQuery, queryOptions } from "@tanstack/react-query";
+import { Minus, Plus, ShoppingBag, ArrowLeft, Check, Loader2 } from "lucide-react";
 import { useCart } from "../lib/cart";
+import { fetchMenuItemBySlug, fetchMenuItems, type MenuItemRow } from "../lib/menu-api";
+import placeholderImg from "../assets/cookie.jpg";
+
+const productQueryOptions = (slug: string) =>
+  queryOptions({
+    queryKey: ["menu-item", slug],
+    queryFn: () => fetchMenuItemBySlug(slug),
+  });
+
+const menuQueryOptions = queryOptions({
+  queryKey: ["menu-items"],
+  queryFn: fetchMenuItems,
+});
 
 export const Route = createFileRoute("/product/$slug")({
-  loader: ({ params }) => {
-    const product = getProduct(params.slug);
+  loader: async ({ params, context }) => {
+    const product = await context.queryClient.ensureQueryData(productQueryOptions(params.slug));
     if (!product) throw notFound();
     return { product };
   },
@@ -21,7 +34,7 @@ export const Route = createFileRoute("/product/$slug")({
         { name: "description", content: product.description },
         { property: "og:title", content: `${product.name} — The Frosting Fairy` },
         { property: "og:description", content: product.description },
-        { property: "og:image", content: product.image },
+        ...(product.image_url ? [{ property: "og:image", content: product.image_url }] : []),
       ],
     };
   },
@@ -40,10 +53,22 @@ export const Route = createFileRoute("/product/$slug")({
 });
 
 function ProductPage() {
-  const { product } = Route.useLoaderData();
+  const { slug } = Route.useParams();
+  const { data: product } = useQuery(productQueryOptions(slug));
+  const { data: allItems = [] } = useQuery(menuQueryOptions);
   const { addItem } = useCart();
   const [quantity, setQuantity] = useState(1);
   const [added, setAdded] = useState(false);
+
+  if (!product) {
+    return (
+      <main className="min-h-[60vh] flex items-center justify-center">
+        <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+      </main>
+    );
+  }
+
+  const image = product.image_url || placeholderImg;
 
   const handleAdd = () => {
     addItem(
@@ -51,8 +76,8 @@ function ProductPage() {
         slug: product.slug,
         name: product.name,
         price: product.price,
-        priceValue: product.priceValue,
-        image: product.image,
+        priceValue: product.price_value,
+        image,
       },
       quantity,
     );
@@ -60,7 +85,9 @@ function ProductPage() {
     setTimeout(() => setAdded(false), 1600);
   };
 
-  const related = products.filter((p) => p.slug !== product.slug).slice(0, 3);
+  const related: MenuItemRow[] = allItems
+    .filter((p) => p.slug !== product.slug && p.category === product.category)
+    .slice(0, 3);
 
   return (
     <main className="px-6 py-16 max-w-7xl mx-auto">
@@ -76,7 +103,7 @@ function ProductPage() {
         <div className="animate-reveal">
           <div className="relative overflow-hidden rounded-3xl bg-muted ring-1 ring-accent/15 aspect-square">
             <img
-              src={product.image}
+              src={image}
               alt={product.name}
               className="h-full w-full object-cover"
             />
@@ -95,15 +122,15 @@ function ProductPage() {
           </h1>
           <div className="flex items-baseline gap-4 mb-6">
             <span className="font-display text-3xl">{product.price}</span>
-            {product.servingSize && (
+            {product.serving_size && (
               <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
-                {product.servingSize}
+                {product.serving_size}
               </span>
             )}
           </div>
 
           <p className="text-muted-foreground leading-relaxed mb-8">
-            {product.longDescription}
+            {product.long_description || product.description}
           </p>
 
           <div className="flex items-center gap-4 mb-6">
@@ -149,7 +176,7 @@ function ProductPage() {
             <section>
               <h2 className="font-mono text-[10px] uppercase tracking-[0.3em] text-accent mb-3">Ingredients</h2>
               <div className="flex flex-wrap gap-2">
-                {product.ingredients.map((i: string) => (
+                {(product.ingredients ?? []).map((i: string) => (
                   <span
                     key={i}
                     className="rounded-full bg-muted px-3 py-1 text-xs text-muted-foreground"
@@ -157,18 +184,24 @@ function ProductPage() {
                     {i}
                   </span>
                 ))}
+                {(!product.ingredients || product.ingredients.length === 0) && (
+                  <span className="text-xs text-muted-foreground">Freshly baked with premium ingredients.</span>
+                )}
               </div>
             </section>
 
             <section>
               <h2 className="font-mono text-[10px] uppercase tracking-[0.3em] text-accent mb-3">The Details</h2>
               <ul className="space-y-2">
-                {product.details.map((d: string) => (
+                {(product.details ?? []).map((d: string) => (
                   <li key={d} className="flex gap-3 text-sm text-muted-foreground">
                     <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-accent" />
                     {d}
                   </li>
                 ))}
+                {(!product.details || product.details.length === 0) && (
+                  <li className="text-sm text-muted-foreground">Baked fresh the morning of pickup · Please order 2 days in advance.</li>
+                )}
               </ul>
             </section>
           </div>
@@ -188,7 +221,7 @@ function ProductPage() {
               >
                 <div className="aspect-square overflow-hidden rounded-2xl bg-muted mb-4">
                   <img
-                    src={p.image}
+                    src={p.image_url || placeholderImg}
                     alt={p.name}
                     className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
