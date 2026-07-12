@@ -37,7 +37,10 @@ const categoryImage: Record<string, string> = {
   "New Additions (Box of 6)": macaronImg,
 };
 
-const raw: { category: string; items: Omit<MenuItem, "slug" | "image"> & { slug?: string; image?: string; imageAlt?: string }[] extends never ? never : Array<{ name: string; description: string; price: string; slug?: string; image?: string; imageAlt?: string }> }[] = [
+type RawItem = { name: string; description: string; price: string; slug?: string; image?: string; imageAlt?: string };
+type RawCategory = { category: string; items: RawItem[] };
+
+const raw: RawCategory[] = [
   {
     category: "Cakes & Bakes",
     items: [
