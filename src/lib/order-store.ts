@@ -41,7 +41,7 @@ export async function createOrder(items: CartItem[], customer: Customer, total: 
     customer_phone: customer.phone,
     customer_email: customer.email || null,
     notes: customer.notes || null,
-    items: items as unknown as Record<string, unknown>[],
+    items: JSON.parse(JSON.stringify(items)),
     total,
     status: "pending",
   });
