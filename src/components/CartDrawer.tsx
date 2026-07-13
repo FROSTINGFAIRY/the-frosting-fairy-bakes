@@ -105,12 +105,13 @@ export function CartDrawer() {
             <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
               Pickup & delivery calculated at checkout
             </p>
-            <a
-              href="/custom-orders"
+            <Link
+              to="/checkout"
+              onClick={closeCart}
               className="block w-full rounded-full bg-foreground text-background text-center py-3 text-[11px] uppercase tracking-widest font-bold hover:bg-accent hover:text-accent-foreground transition-all"
             >
               Proceed to Checkout
-            </a>
+            </Link>
             <button
               onClick={clear}
               className="w-full text-[10px] uppercase tracking-widest text-muted-foreground hover:text-destructive transition-colors"
