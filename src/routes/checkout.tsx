@@ -33,12 +33,17 @@ function CheckoutPage() {
     );
   }
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!name.trim() || !phone.trim()) return;
-    const order = createOrder(items, { name, phone, email, notes }, subtotal);
-    closeCart();
-    navigate({ to: "/payment/$orderId", params: { orderId: order.id } });
+    try {
+      const order = await createOrder(items, { name, phone, email, notes }, subtotal);
+      closeCart();
+      navigate({ to: "/payment/$orderId", params: { orderId: order.id } });
+    } catch (err) {
+      console.error(err);
+      alert("Couldn't place order. Please try again.");
+    }
   }
 
   return (
