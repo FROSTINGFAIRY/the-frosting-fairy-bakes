@@ -82,6 +82,12 @@ function AdminPage() {
         </div>
         <div className="flex gap-2">
           <Link
+            to="/admin/orders"
+            className="rounded-full bg-foreground text-background px-4 py-2 text-[10px] uppercase tracking-widest font-bold hover:bg-accent hover:text-accent-foreground transition"
+          >
+            Orders
+          </Link>
+          <Link
             to="/menu"
             className="rounded-full border border-border px-4 py-2 text-[10px] uppercase tracking-widest font-bold hover:bg-muted transition"
           >
