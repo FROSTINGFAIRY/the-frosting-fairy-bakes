@@ -19,6 +19,7 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProductSlugRouteImport } from './routes/product.$slug'
 import { Route as PaymentOrderIdRouteImport } from './routes/payment.$orderId'
+import { Route as PaymentSuccessOrderIdRouteImport } from './routes/payment-success.$orderId'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 
 const VisitRoute = VisitRouteImport.update({
@@ -70,6 +71,11 @@ const PaymentOrderIdRoute = PaymentOrderIdRouteImport.update({
   path: '/payment/$orderId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PaymentSuccessOrderIdRoute = PaymentSuccessOrderIdRouteImport.update({
+  id: '/payment-success/$orderId',
+  path: '/payment-success/$orderId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
   id: '/admin',
   path: '/admin',
@@ -85,6 +91,7 @@ export interface FileRoutesByFullPath {
   '/story': typeof StoryRoute
   '/visit': typeof VisitRoute
   '/admin': typeof AuthenticatedAdminRoute
+  '/payment-success/$orderId': typeof PaymentSuccessOrderIdRoute
   '/payment/$orderId': typeof PaymentOrderIdRoute
   '/product/$slug': typeof ProductSlugRoute
 }
@@ -97,6 +104,7 @@ export interface FileRoutesByTo {
   '/story': typeof StoryRoute
   '/visit': typeof VisitRoute
   '/admin': typeof AuthenticatedAdminRoute
+  '/payment-success/$orderId': typeof PaymentSuccessOrderIdRoute
   '/payment/$orderId': typeof PaymentOrderIdRoute
   '/product/$slug': typeof ProductSlugRoute
 }
@@ -111,6 +119,7 @@ export interface FileRoutesById {
   '/story': typeof StoryRoute
   '/visit': typeof VisitRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
+  '/payment-success/$orderId': typeof PaymentSuccessOrderIdRoute
   '/payment/$orderId': typeof PaymentOrderIdRoute
   '/product/$slug': typeof ProductSlugRoute
 }
@@ -125,6 +134,7 @@ export interface FileRouteTypes {
     | '/story'
     | '/visit'
     | '/admin'
+    | '/payment-success/$orderId'
     | '/payment/$orderId'
     | '/product/$slug'
   fileRoutesByTo: FileRoutesByTo
@@ -137,6 +147,7 @@ export interface FileRouteTypes {
     | '/story'
     | '/visit'
     | '/admin'
+    | '/payment-success/$orderId'
     | '/payment/$orderId'
     | '/product/$slug'
   id:
@@ -150,6 +161,7 @@ export interface FileRouteTypes {
     | '/story'
     | '/visit'
     | '/_authenticated/admin'
+    | '/payment-success/$orderId'
     | '/payment/$orderId'
     | '/product/$slug'
   fileRoutesById: FileRoutesById
@@ -163,6 +175,7 @@ export interface RootRouteChildren {
   MenuRoute: typeof MenuRoute
   StoryRoute: typeof StoryRoute
   VisitRoute: typeof VisitRoute
+  PaymentSuccessOrderIdRoute: typeof PaymentSuccessOrderIdRoute
   PaymentOrderIdRoute: typeof PaymentOrderIdRoute
   ProductSlugRoute: typeof ProductSlugRoute
 }
@@ -239,6 +252,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PaymentOrderIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/payment-success/$orderId': {
+      id: '/payment-success/$orderId'
+      path: '/payment-success/$orderId'
+      fullPath: '/payment-success/$orderId'
+      preLoaderRoute: typeof PaymentSuccessOrderIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_authenticated/admin': {
       id: '/_authenticated/admin'
       path: '/admin'
@@ -269,6 +289,7 @@ const rootRouteChildren: RootRouteChildren = {
   MenuRoute: MenuRoute,
   StoryRoute: StoryRoute,
   VisitRoute: VisitRoute,
+  PaymentSuccessOrderIdRoute: PaymentSuccessOrderIdRoute,
   PaymentOrderIdRoute: PaymentOrderIdRoute,
   ProductSlugRoute: ProductSlugRoute,
 }
