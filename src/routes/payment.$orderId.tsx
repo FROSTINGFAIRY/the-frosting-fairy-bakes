@@ -2,7 +2,7 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 import { Copy, Check, Smartphone, ShieldCheck } from "lucide-react";
-import { getOrder, markOrderPaid } from "@/lib/order-store";
+import { getOrder, markOrderPaidLocal } from "@/lib/order-store";
 import { UPI_ID, PAYEE_NAME, buildUpiUri } from "@/lib/payment-config";
 import { useCart } from "@/lib/cart";
 
@@ -50,7 +50,7 @@ function PaymentPage() {
   }
 
   function markPaid() {
-    markOrderPaid(order!.id);
+    markOrderPaidLocal(order!.id);
     clear();
     navigate({ to: "/payment-success/$orderId", params: { orderId: order!.id } });
   }
