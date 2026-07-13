@@ -1,4 +1,5 @@
 import type { CartItem } from "./cart";
+import { supabase } from "@/integrations/supabase/client";
 
 export type Customer = { name: string; phone: string; email?: string; notes?: string };
 export type Order = {
@@ -22,7 +23,7 @@ function writeAll(orders: Order[]) {
   localStorage.setItem(KEY, JSON.stringify(orders));
 }
 
-export function createOrder(items: CartItem[], customer: Customer, total: number): Order {
+export async function createOrder(items: CartItem[], customer: Customer, total: number): Promise<Order> {
   const id = `FF-${Date.now().toString(36).toUpperCase()}${Math.floor(Math.random() * 900 + 100)}`;
   const order: Order = {
     id,
@@ -33,6 +34,18 @@ export function createOrder(items: CartItem[], customer: Customer, total: number
     customer,
     status: "pending",
   };
+  // Persist to the database so the owner can see it in /admin/orders.
+  const { error } = await supabase.from("orders").insert({
+    order_code: id,
+    customer_name: customer.name,
+    customer_phone: customer.phone,
+    customer_email: customer.email || null,
+    notes: customer.notes || null,
+    items: JSON.parse(JSON.stringify(items)),
+    total,
+    status: "pending",
+  });
+  if (error) throw new Error(error.message);
   const all = readAll();
   all.push(order);
   writeAll(all);
@@ -44,7 +57,7 @@ export function getOrder(id: string): Order | null {
   return readAll().find((o) => o.id === id) ?? null;
 }
 
-export function markOrderPaid(id: string) {
+export function markOrderPaidLocal(id: string) {
   const all = readAll();
   const idx = all.findIndex((o) => o.id === id);
   if (idx >= 0) { all[idx].status = "paid"; writeAll(all); }
