@@ -90,10 +90,6 @@ function OrdersPage() {
         </div>
         <div className="flex gap-2">
           <Link
-            to="/_authenticated/admin" as any
-            className="hidden"
-          >Menu</Link>
-          <Link
             to="/admin"
             className="flex items-center gap-1.5 rounded-full border border-border px-4 py-2 text-[10px] uppercase tracking-widest font-bold hover:bg-muted transition"
           >
