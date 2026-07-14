@@ -3,7 +3,9 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
-import { Loader2, LogOut, ArrowLeft, Check, X, ChevronDown, ChevronUp } from "lucide-react";
+import { Loader2, LogOut, ArrowLeft, Check, X, ChevronDown, ChevronUp, MapPin } from "lucide-react";
+import type { ShippingAddress } from "@/lib/address";
+import { formatAddress } from "@/lib/address";
 
 export const Route = createFileRoute("/_authenticated/admin/orders")({
   head: () => ({
@@ -27,6 +29,7 @@ type OrderRow = {
   status: "pending" | "paid" | "cancelled";
   created_at: string;
   updated_at: string;
+  shipping_address: ShippingAddress | null;
 };
 
 type Filter = "all" | "pending" | "paid" | "cancelled";
@@ -241,6 +244,29 @@ function OrderCard({
             <div>
               <p className="font-mono text-[9px] uppercase tracking-[0.25em] text-muted-foreground mb-1">Notes</p>
               <p className="text-sm whitespace-pre-wrap">{order.notes}</p>
+            </div>
+          )}
+          {order.shipping_address && (
+            <div>
+              <p className="font-mono text-[9px] uppercase tracking-[0.25em] text-muted-foreground mb-1 flex items-center gap-1">
+                <MapPin className="h-3 w-3" /> Delivery address
+              </p>
+              <p className="text-sm leading-relaxed">
+                {order.shipping_address.formatted || formatAddress(order.shipping_address)}
+              </p>
+              {order.shipping_address.landmark && (
+                <p className="text-xs text-muted-foreground mt-0.5">Landmark: {order.shipping_address.landmark}</p>
+              )}
+              {typeof order.shipping_address.latitude === "number" && typeof order.shipping_address.longitude === "number" && (
+                <a
+                  href={`https://www.google.com/maps/search/?api=1&query=${order.shipping_address.latitude},${order.shipping_address.longitude}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-1 inline-flex items-center gap-1 font-mono text-[10px] text-accent hover:underline"
+                >
+                  Open in Google Maps → {order.shipping_address.latitude.toFixed(5)}, {order.shipping_address.longitude.toFixed(5)}
+                </a>
+              )}
             </div>
           )}
         </div>
