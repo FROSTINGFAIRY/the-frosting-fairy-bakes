@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { CheckCircle2 } from "lucide-react";
+import { CheckCircle2, MapPin } from "lucide-react";
 import { getOrder } from "@/lib/order-store";
+import { formatAddress } from "@/lib/address";
 
 export const Route = createFileRoute("/payment-success/$orderId")({
   head: () => ({
@@ -42,6 +43,24 @@ function SuccessPage() {
               <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">Phone</span>
               <span className="font-mono">{order.customer.phone}</span>
             </div>
+            {order.shippingAddress && (
+              <div className="border-t border-border pt-4">
+                <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground mb-2 flex items-center gap-1">
+                  <MapPin className="h-3 w-3" /> Delivering to
+                </p>
+                <p className="text-sm leading-relaxed">
+                  {order.shippingAddress.formatted || formatAddress(order.shippingAddress)}
+                </p>
+                {order.shippingAddress.landmark && (
+                  <p className="text-xs text-muted-foreground mt-1">Landmark: {order.shippingAddress.landmark}</p>
+                )}
+                {typeof order.shippingAddress.latitude === "number" && typeof order.shippingAddress.longitude === "number" && (
+                  <p className="mt-1 font-mono text-[10px] text-muted-foreground">
+                    {order.shippingAddress.latitude.toFixed(5)}, {order.shippingAddress.longitude.toFixed(5)}
+                  </p>
+                )}
+              </div>
+            )}
             <div className="border-t border-border pt-4">
               <ul className="space-y-2 mb-4">
                 {order.items.map((i) => (
