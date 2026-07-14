@@ -1,5 +1,6 @@
 import type { CartItem } from "./cart";
 import { supabase } from "@/integrations/supabase/client";
+import type { ShippingAddress } from "./address";
 
 export type Customer = { name: string; phone: string; email?: string; notes?: string };
 export type Order = {
@@ -9,6 +10,7 @@ export type Order = {
   subtotal: number;
   total: number;
   customer: Customer;
+  shippingAddress?: ShippingAddress;
   status: "pending" | "paid";
 };
 
@@ -23,7 +25,12 @@ function writeAll(orders: Order[]) {
   localStorage.setItem(KEY, JSON.stringify(orders));
 }
 
-export async function createOrder(items: CartItem[], customer: Customer, total: number): Promise<Order> {
+export async function createOrder(
+  items: CartItem[],
+  customer: Customer,
+  total: number,
+  shippingAddress?: ShippingAddress,
+): Promise<Order> {
   const id = `FF-${Date.now().toString(36).toUpperCase()}${Math.floor(Math.random() * 900 + 100)}`;
   const order: Order = {
     id,
@@ -32,6 +39,7 @@ export async function createOrder(items: CartItem[], customer: Customer, total: 
     subtotal: total,
     total,
     customer,
+    shippingAddress,
     status: "pending",
   };
   // Persist to the database so the owner can see it in /admin/orders.
@@ -44,6 +52,7 @@ export async function createOrder(items: CartItem[], customer: Customer, total: 
     items: JSON.parse(JSON.stringify(items)),
     total,
     status: "pending",
+    shipping_address: shippingAddress ? JSON.parse(JSON.stringify(shippingAddress)) : null,
   });
   if (error) throw new Error(error.message);
   const all = readAll();

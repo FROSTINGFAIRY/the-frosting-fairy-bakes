@@ -84,6 +84,7 @@ export type Database = {
           items: Json
           notes: string | null
           order_code: string
+          shipping_address: Json | null
           status: Database["public"]["Enums"]["order_status"]
           total: number
           updated_at: string
@@ -97,6 +98,7 @@ export type Database = {
           items?: Json
           notes?: string | null
           order_code: string
+          shipping_address?: Json | null
           status?: Database["public"]["Enums"]["order_status"]
           total?: number
           updated_at?: string
@@ -110,6 +112,7 @@ export type Database = {
           items?: Json
           notes?: string | null
           order_code?: string
+          shipping_address?: Json | null
           status?: Database["public"]["Enums"]["order_status"]
           total?: number
           updated_at?: string
