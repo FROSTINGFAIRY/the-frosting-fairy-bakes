@@ -1,5 +1,5 @@
 // Update these to go live. VPA format: name@bankhandle (e.g. frostingfairy@okhdfcbank)
-export const UPI_ID = "YOUR_UPI_ID@bank";
+export const UPI_ID = "justforme680@sbi";
 export const PAYEE_NAME = "The Frosting Fairy";
 export const CURRENCY = "INR";
 
